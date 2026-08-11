@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Art — Minhal</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .page-hero { padding: 130px 0 20px; }
+  .page-hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 700; max-width: 16ch; }
+  .page-hero p { font-family: 'EB Garamond', serif; font-size: 1.05rem; color: var(--navy-soft); max-width: 55ch; margin-top: 16px; }
+  .full-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 60px 0 110px; }
+  .full-card { border: 1px solid var(--navy-faint); display: block; transition: opacity 0.25s ease; }
+  .full-card:hover { opacity: 0.85; }
+  .full-img { height: 340px; position: relative; overflow: hidden; }
+  .full-img img { width: 100%; height: 100%; object-fit: cover; }
+  .full-caption { padding: 14px 4px 0; }
+  .full-caption .t { font-family:'Libre Baskerville', serif; font-size: 1.05rem; font-weight: 700; }
+  .full-caption .m { font-family:'Inter', sans-serif; font-size: 0.72rem; color: var(--navy-soft); margin-top: 4px; }
+  .empty-slot { border: 1px dashed var(--navy-faint); height: 340px; display: flex; align-items: center; justify-content: center; font-family:'Inter',sans-serif; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--navy-faint); text-align: center; padding: 20px; }
+  @media (max-width: 860px) { .full-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .full-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<a class="mark" href="index.html">Minhal</a>
+<nav class="nav-desktop">
+  <div class="nav-item"><a>Work</a>
+    <div class="dropdown">
+      <a href="index.html#work-mock">Campaigns</a>
+      <a href="index.html#work-published">Published Projects</a>
+      <a href="index.html#work-collab">Collaborative Projects</a>
+      <a href="art.html">Visual Art</a>
+      <a href="writing.html">Writing</a>
+    </div>
+  </div>
+  <div class="nav-item"><a href="about.html">About</a></div>
+  <div class="nav-item"><a>Creative Playground</a>
+    <div class="dropdown">
+      <a href="index.html#archive-portfolio">Portfolio (PDF)</a>
+      <a href="index.html#archive-club">Additional Club Design</a>
+      <a href="index.html#archive-substack" target="_blank">Substack</a>
+    </div>
+  </div>
+</nav>
+<div class="nav-mobile-toggle" id="hamburger"><span></span></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-item" id="mWork"><div class="mobile-item-head">Work <span class="chevron">+</span></div>
+    <div class="mobile-sub">
+      <a href="index.html#work-mock">Campaigns</a>
+      <a href="index.html#work-published">Published Projects</a>
+      <a href="index.html#work-collab">Collaborative Projects</a>
+      <a href="art.html">Visual Art</a>
+      <a href="writing.html">Writing</a>
+    </div>
+  </div>
+  <div class="mobile-item mobile-plain"><a href="about.html">About</a></div>
+  <div class="mobile-item" id="mArchive"><div class="mobile-item-head">Creative Playground <span class="chevron">+</span></div>
+    <div class="mobile-sub">
+      <a href="index.html#archive-portfolio">Portfolio (PDF)</a>
+      <a href="index.html#archive-club">Additional Club Design</a>
+      <a href="index.html#archive-substack" target="_blank">Substack</a>
+    </div>
+  </div>
+  <div class="mobile-item mobile-plain"><a href="index.html#contact">Contact</a></div>
+</div>
+
+<div class="wrap page-hero">
+  <h1 class="display">Visual Art</h1>
+  <p>Paintings, drawings, and studies. Graphite work has its own dedicated room — <a href="graphite.html" style="border-bottom:1px solid var(--navy-faint);">A World in Graphite →</a></p>
+</div>
+
+<div class="wrap full-grid">
+  <a class="full-card" href="images/simple-or-complex.jpeg" target="_blank">
+    <div class="full-img"><img src="images/simple-or-complex.jpeg" alt="Simple or Complex — oil painting of a swallowtail butterfly on roses"></div>
+    <div class="full-caption"><div class="t">Simple or Complex</div><div class="m">Oil on canvas</div></div>
+  </a>
+  <a class="full-card" href="graphite.html">
+    <div class="full-img"><img src="images/rearing-horse.jpg" alt="Rearing Horse — graphite drawing" style="object-position:center 20%;"></div>
+    <div class="full-caption"><div class="t">Rearing Horse</div><div class="m">Graphite — part of A World in Graphite</div></div>
+  </a>
+  <a class="full-card" href="essay-dadi.html">
+    <div class="full-img"><img src="images/dadi-portrait.jpg" alt="Dadi — graphite portrait" style="object-position:center 15%;"></div>
+    <div class="full-caption"><div class="t">Dadi</div><div class="m">Graphite — paired with the essay</div></div>
+  </a>
+  <div class="empty-slot">More pieces<br>coming soon</div>
+  <div class="empty-slot">More pieces<br>coming soon</div>
+  <div class="empty-slot">More pieces<br>coming soon</div>
+</div>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2 class="display">Let's talk about a piece, a project, or a commission.</h2>
+    <div class="contact-row">
+      <a href="mailto:you@email.com">you@email.com</a>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+    </div>
+    <div class="fine-print">Portfolio of Minhal — Updated 2026</div>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+  ['mWork', 'mArchive'].forEach(id => {
+    const item = document.getElementById(id);
+    item.querySelector('.mobile-item-head').addEventListener('click', () => item.classList.toggle('open'));
+  });
+  document.querySelectorAll('.mobile-sub a, .mobile-plain a').forEach(a => {
+    a.addEventListener('click', () => { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); });
+  });
+</script>
+</body>
+</html>
