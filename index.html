@@ -22,7 +22,7 @@
 
 <style>
   /* ---------- HERO ---------- */
-  .hero { padding: 116px 0 46px; }
+  .hero { padding: 40px 0 46px; }
   .hero-grid { display: grid; grid-template-columns: 1fr 1.35fr; gap: 40px; }
   .hero-statement {
     font-size: clamp(1.7rem, 3vw, 2.7rem);
@@ -154,13 +154,218 @@
   <a class="btn-resume" href="#">Résumé</a>
 </div>
 
+<!-- ============================================================
+     NAME MARK — a compact, elegant impression before the hero.
+     Same animated-gradient treatment as the About page name, in
+     lowercase Libre Baskerville, sized down so it doesn't compete
+     with the hero below. Underneath, a tagline whose last phrase
+     rolls over on a timer like a scoreboard/odometer flip — new
+     phrase drops in from above while the old one drops out below,
+     rather than a plain crossfade.
+     ============================================================ -->
+<style>
+  .namemark {
+    position: relative;
+    min-height: 75vh;
+    box-sizing: border-box;
+    padding: 110px 0 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+  .namemark-name {
+    position: relative;
+    z-index: 2;
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    font-size: clamp(4.5rem, 13.5vw, 10rem);
+    line-height: 1;
+    text-transform: lowercase;
+    background: linear-gradient(115deg, #86c8cd 0%, #6db2c8 20%, #415771 40%, #5e72eb 60%, #FE7F9C 80%, #86c8cd 100%);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: namemarkGradientFlow 9s ease infinite;
+    display: inline-block;
+  }
+  @keyframes namemarkGradientFlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* SKETCHES — positioned relative to the WORD itself (via
+     .namemark-word-wrap below), not the whole section. That
+     means left:0%/100% always equals the word's own left/right
+     edge, and bottom:0% always equals its baseline — so "don't
+     go below the baseline" is just bottom >= 0, guaranteed at
+     any screen size, rather than an approximation. All six sit
+     behind the gradient name (z-index below it) and are sized
+     small enough to gather closely around the word without
+     reaching the top of the section. */
+  .namemark-word-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  .namemark-sketches {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .namemark-sketches img { position: absolute; height: auto; display: block; }
+
+  /* thinner-line sketches get more opacity to stay visible;
+     heavy-fill sketches get less so they don't dominate */
+  .sk-cyclist    { left: -24%; bottom: 0%;  width: 24%; max-width: 140px; transform: rotate(-6deg); opacity: 0.75; }
+  .sk-tennis     { left: 8%;   bottom: 55%; width: 18%; max-width: 110px; transform: rotate(-4deg); opacity: 0.55; }
+  .sk-seated     { left: 30%;  bottom: 55%; width: 18%; max-width: 115px; transform: rotate(3deg);  opacity: 0.57; }
+  .sk-reader     { left: 50%;  bottom: 70%; width: 17%; max-width: 108px; transform: rotate(-3deg); opacity: 0.67; }
+  .sk-horsegroom { left: 68%;  bottom: 58%; width: 18%; max-width: 155px; transform: rotate(2deg);  opacity: 0.57; }
+  .sk-runner     { left: 98%;  bottom: 5%;  width: 16%; max-width: 90px;  transform: rotate(4deg);  opacity: 0.61; }
+
+  @media (max-width: 860px) {
+    .sk-cyclist    { max-width: 88px; }
+    .sk-tennis     { max-width: 69px; }
+    .sk-seated     { max-width: 72px; }
+    .sk-reader     { max-width: 68px; }
+    .sk-horsegroom { max-width: 97px; }
+    .sk-runner     { max-width: 56px; }
+  }
+
+  .namemark-tagline-row {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.16em;
+    flex-wrap: wrap;
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: clamp(1.1rem, 2.4vw, 1.7rem);
+    color: var(--navy);
+  }
+  .namemark-cyclewrap {
+    position: relative;
+    display: inline-block;
+    height: 1.6em;
+    overflow: hidden;
+    vertical-align: middle;
+    transition: width 0.45s cubic-bezier(0.34, 1.2, 0.4, 1);
+  }
+  .namemark-cyclewrap span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    line-height: 1.6em;
+    white-space: nowrap;
+    color: var(--vivid-blue);
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-120%);
+    transition: transform 0.55s cubic-bezier(0.34, 1.45, 0.5, 1), opacity 0.4s ease;
+  }
+  .namemark-cyclewrap span.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .namemark-cyclewrap span.leaving {
+    opacity: 0;
+    transform: translateY(120%);
+    transition: transform 0.4s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.3s ease;
+  }
+  .namemark-cyclewrap span.reset {
+    transition: none !important;
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+
+  .namemark-divider {
+    width: 44px;
+    height: 3px;
+    background: var(--teal);
+    margin: 36px auto 0;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .namemark-name { animation: none; background-position: 30% 50%; }
+    .namemark-cyclewrap { transition: none; }
+    .namemark-cyclewrap span { transition: opacity 0.4s ease; transform: none !important; }
+  }
+
+  @media (max-width: 860px) {
+    .namemark { min-height: 68vh; padding: 100px 0 30px; }
+    .namemark-name { font-size: clamp(2.8rem, 15vw, 6rem); }
+    .namemark-divider { margin-top: 28px; }
+  }
+</style>
+
+<div class="wrap namemark">
+  <div class="namemark-word-wrap">
+    <div class="namemark-sketches">
+      <img class="sk-cyclist" src="images/sketches/sketch-cyclist.png" alt="Ink sketch, cyclist">
+      <img class="sk-horsegroom" src="images/sketches/sketch-horse-groom.png" alt="Ink sketch, horse and groom">
+      <img class="sk-tennis" src="images/sketches/sketch-tennis.png" alt="Ink sketch, tennis player">
+      <img class="sk-reader" src="images/sketches/sketch-reader.png" alt="Ink sketch, girl reading">
+      <img class="sk-runner" src="images/sketches/sketch-runner.png" alt="Ink sketch, runner">
+      <img class="sk-seated" src="images/sketches/sketch-seated.png" alt="Ink sketch, seated figure">
+    </div>
+    <div class="namemark-name">minhal</div>
+  </div>
+  <div class="namemark-tagline-row">
+    <span>You'll find me</span>
+    <span class="namemark-cyclewrap" id="namemarkCycle">
+      <span class="active">spotting shapes in the clouds</span>
+      <span>talking about clever campaigns</span>
+      <span>planning our next game night</span>
+      <span>singing when nobody's home</span>
+    </span>
+  </div>
+  <div class="namemark-divider"></div>
+</div>
+<script>
+  (function () {
+    var wrap = document.getElementById('namemarkCycle');
+    var spans = Array.prototype.slice.call(wrap.children);
+    var idx = 0;
+
+    function sizeTo(span) {
+      wrap.style.width = span.scrollWidth + 'px';
+    }
+    sizeTo(spans[idx]); /* set initial width to match the first phrase */
+
+    setInterval(function () {
+      var current = spans[idx];
+      current.classList.remove('active');
+      current.classList.add('leaving');
+      var nextIdx = (idx + 1) % spans.length;
+      var next = spans[nextIdx];
+      next.classList.add('reset');
+      void next.offsetWidth; /* force reflow so the reset position applies before animating in */
+      next.classList.remove('reset');
+      next.classList.add('active');
+      sizeTo(next); /* container width now tracks only the active phrase, so the gap after "You'll find me" stays constant */
+      (function (el) {
+        setTimeout(function () { el.classList.remove('leaving'); }, 450);
+      })(current);
+      idx = nextIdx;
+    }, 4000);
+  })();
+</script>
+
 <!-- HERO — text stacked above one large image on the left, 2x2 grid of 4 images on the right -->
 <div class="wrap hero">
   <div class="hero-grid">
     <div class="hero-left">
       <div class="hero-text">
         <h1 class="hero-statement display">I build campaigns, stories, and art that connect.</h1>
-        <p class="hero-sub">Creative strategist and storyteller designing campaigns for large-scale university clubs, writing work published in the <b>alumni UBC Magazine</b>, and making visual art across painting and graphite.</p>
+        <p class="hero-sub">Creative strategist and storyteller designing campaigns for large-scale university clubs, writing work published in the <b>UBC Magazine</b>, and making visual art across painting and graphite.</p>
         <div class="hero-ctas">
           <a class="btn-primary" href="work.html">View Selected Work →</a>
           <a class="btn-secondary" href="#">Download Résumé</a>
@@ -173,7 +378,7 @@
         </video>
         <div class="cap">
           <div class="t">Extraordinary Moments</div>
-          <div class="m">Published — UBC Alumni Magazine ↗</div>
+          <div class="m">Published — UBC Magazine ↗</div>
         </div>
       </a>
     </div>
@@ -263,7 +468,7 @@
     </div>
     <div class="writing-grid">
       <a class="writing-card featured" href="https://magazine.alumni.ubc.ca/2026/campus/extraordinary-moments-ubc-vignettes-ill-never-forget" target="_blank" rel="noopener">
-        <div class="genre label">Published — UBC Alumni Magazine ↗</div>
+        <div class="genre label">Published — UBC Magazine ↗</div>
         <h3>Extraordinary Moments</h3>
         <p>A collection of campus vignettes, written and illustrated — published externally.</p>
       </a>

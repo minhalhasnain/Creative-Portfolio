@@ -10,14 +10,13 @@
   ============================================================
   HOW TO EDIT THIS FILE
   ============================================================
-  The big centered name uses an animated gradient — its colors
-  are the two "vivid-blue" variables near the top of style.css,
-  plus your existing navy. Change those hex values there.
-
-  The three cycling labels are in the .roles list below — add,
-  remove, or reorder <span> entries and the rotation adjusts
-  automatically. Timing is set in the <script> at the bottom
-  (currently 2.4s per label).
+  Page order, top to bottom: cycling headline -> bio (headshot +
+  blurb) -> map. The headline is the three phrases in .about-cycle
+  — add, remove, or reorder <span> entries (each with its own
+  color class: c-storyteller / c-designer / c-artist) and the
+  rotation adjusts automatically. It "falls into place" the same
+  way the landing page tagline does. Timing is set in the second
+  <script> block near the bottom (currently 2.5s per phrase).
 
   Bio paragraphs are plain text further down — replace directly.
   ============================================================
@@ -27,72 +26,50 @@
   .about-hero {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center;
-    padding: 100px 24px 20px;
+    padding: 90px 24px 10px;
   }
 
-  .name-gradient {
-    font-family: 'Libre Baskerville', serif;
-    font-weight: 700;
-    font-size: clamp(3.2rem, 13vw, 8.5rem);
-    line-height: 1;
-    text-transform: lowercase;
-    background: linear-gradient(115deg, var(--vivid-dark) 0%, var(--vivid-blue) 30%, var(--vivid-blue-light) 50%, var(--vivid-blue) 70%, var(--vivid-dark) 100%);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradientFlow 9s ease infinite;
-  }
-
-  @keyframes gradientFlow {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .roles {
-    margin-top: 26px;
-    height: 1.9rem;
+  .about-cycle {
     position: relative;
-    font-family: 'Inter', sans-serif;
-    font-size: 1.15rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--navy-soft);
-  }
-  .roles span {
-    position: absolute; left: 50%; top: 0;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.7s ease;
-    white-space: nowrap;
-  }
-  .roles span.active { opacity: 1; }
-
-  .about-divider {
-    width: 40px; height: 1px; background: var(--teal);
-    margin: 26px auto 0;
-  }
-
-  .map-wrap {
-    max-width: 500px;
-    margin: 30px auto 0;
-    padding: 0 24px;
-  }
-  .map-wrap img { width: 100%; height: auto; display: block; }
-  .map-caption {
-    margin-top: 16px;
-    text-align: center;
+    height: 1.35em;
+    overflow: hidden;
     font-family: 'EB Garamond', serif;
-    font-style: italic;
-    font-size: 0.98rem;
-    color: var(--navy-soft);
+    font-weight: 400;
+    font-style: normal;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
   }
+  .about-cycle span {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    line-height: 1.35em;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-120%);
+    transition: transform 0.55s cubic-bezier(0.34, 1.45, 0.5, 1), opacity 0.4s ease;
+  }
+  .about-cycle span.active {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .about-cycle span.leaving {
+    opacity: 0;
+    transform: translateX(-50%) translateY(120%);
+    transition: transform 0.4s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.3s ease;
+  }
+  .about-cycle span.reset {
+    transition: none !important;
+    transform: translateX(-50%) translateY(-120%);
+    opacity: 0;
+  }
+  .about-cycle .c-storyteller { color: var(--teal); }
+  .about-cycle .c-designer { color: #5e72eb; }
+  .about-cycle .c-artist { color: #FE7F9C; }
 
   .about-bio {
     max-width: 900px;
-    margin: 30px auto 0;
-    padding: 0 24px 120px;
+    margin: 10px auto 0;
+    padding: 0 24px;
     text-align: left;
     display: grid;
     grid-template-columns: 0.85fr 1.15fr;
@@ -121,15 +98,26 @@
     padding-bottom: 24px;
     border-bottom: 1px solid var(--navy-faint);
   }
-  .bio-placeholder-box {
-    border: 1px dashed var(--navy-faint);
-    padding: 24px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
-    line-height: 1.7;
+
+  .about-map-section {
+    max-width: 900px;
+    margin: 50px auto 0;
+    padding: 0 24px 100px;
+    text-align: center;
+  }
+  .map-wrap {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+  .map-wrap img { width: 100%; height: auto; display: block; }
+  .map-caption {
+    margin-top: 12px;
+    text-align: center;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.98rem;
     color: var(--navy-soft);
   }
-  .bio-placeholder-box strong { color: var(--navy); }
 
   @media (max-width: 700px) {
     .about-bio { grid-template-columns: 1fr; }
@@ -137,8 +125,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .name-gradient { animation: none; background-position: 30% 50%; }
-    .roles span { transition: none; }
+    .about-cycle span { transition: opacity 0.4s ease; transform: translateX(-50%) !important; }
   }
 </style>
 </head>
@@ -161,24 +148,16 @@
   <a class="btn-resume" href="#">Résumé</a>
 </div>
 
-<!-- SECTION: ABOUT HERO -->
+<!-- SECTION: ABOUT HERO — cycling headline only -->
 <div class="about-hero">
-  <div class="name-gradient">Minhal</div>
-  <div class="roles">
-    <span class="active">Storyteller</span>
-    <span>Creative Designer</span>
-    <span>Visual Artist</span>
-  </div>
-  <div class="about-divider"></div>
-
- <div class="map-wrap">
-    <img src="images/world-map.png" alt="World map with pins marking Vancouver, Dubai, and Karachi" style="width: 100%; height: auto;">
-</div>
-    <p class="map-caption">Karachi – Dubai – Vancouver. Three cities that shaped how I see, and how I make.</p>
+  <div class="about-cycle" id="aboutCycle">
+    <span class="active c-storyteller">Storyteller</span>
+    <span class="c-designer">Creative Designer</span>
+    <span class="c-artist">Visual Artist</span>
   </div>
 </div>
 
-<!-- SECTION: BIO -->
+<!-- SECTION: BIO — moved up, right after the headline -->
 <div class="about-bio">
   <div class="about-headshot">
     <img src="images/headshot.jpg" alt="Portrait of Minhal">
@@ -197,9 +176,16 @@
       When I'm not living in my fast-paced, creative world, I'm trying to hit 20 push-ups, playing Yahtzee with my family, and catching up on classic movies – thankfully not all at the same time.
     </div>
   </div>
+
+<!-- SECTION: MAP — moved down, below the bio -->
+<div class="about-map-section">
+  <div class="map-wrap">
+    <img src="images/world-map.png" alt="World map with pins marking Vancouver, Dubai, and Karachi" style="width: 100%; height: auto;">
+  </div>
+  <p class="map-caption">Karachi – Dubai – Vancouver. Three cities that shaped how I see, and how I make.</p>
 </div>
 
-  <footer id="contact">
+<footer id="contact">
   <div class="wrap">
     <h2 class="display">Let's talk about a piece, a project, or creative work.</h2>
         <div class="contact-row">
@@ -210,23 +196,45 @@
     <div class="fine-print">Portfolio of Minhal — Updated 2026</div>
   </div>
 </footer>
-  
-<script>
-    const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
-  document.querySelectorAll('.mobile-menu a').forEach(a => {
-    a.addEventListener('click', () => { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); });
-  });
 
-  // Cycling role labels
-  const roles = document.querySelectorAll('.roles span');
-  let roleIndex = 0;
-  setInterval(() => {
-    roles[roleIndex].classList.remove('active');
-    roleIndex = (roleIndex + 1) % roles.length;
-    roles[roleIndex].classList.add('active');
-  }, 1500);
+<script>
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    document.querySelectorAll('.mobile-menu a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+  }
+</script>
+
+<script>
+  var aboutCycleWrap = document.getElementById('aboutCycle');
+  if (aboutCycleWrap) {
+    var spans = Array.prototype.slice.call(aboutCycleWrap.children);
+    var idx = 0;
+    setInterval(function () {
+      var current = spans[idx];
+      current.classList.remove('active');
+      current.classList.add('leaving');
+      var nextIdx = (idx + 1) % spans.length;
+      var next = spans[nextIdx];
+      next.classList.add('reset');
+      void next.offsetWidth;
+      next.classList.remove('reset');
+      next.classList.add('active');
+      (function (el) {
+        setTimeout(function () { el.classList.remove('leaving'); }, 450);
+      })(current);
+      idx = nextIdx;
+    }, 2500);
+  }
 </script>
 
 </body>
